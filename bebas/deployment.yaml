@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+spec:
+  replicas: 4  
+  selector:
+    matchLabels:
+      app: my-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1  
+      maxUnavailable: 1  
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-app-container
+          image: your-docker-image:latest  # Replace with your container image
+          resources:
+            requests:
+              memory: "256Mi"  # Set memory request
+              cpu: "500m"      # Set CPU request
+            limits:
+              memory: "512Mi"  # Set memory limit
+              cpu: "1"         # Set CPU limit
+          ports:
+            - containerPort: 80  # Replace with your container port
